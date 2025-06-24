@@ -4,6 +4,7 @@ import { Barbershop } from "@/generated/prisma";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { StarIcon } from "lucide-react";
+import Link from "next/link";
 
 interface BarberShopItemProps {
   barbershop: Barbershop;
@@ -11,7 +12,7 @@ interface BarberShopItemProps {
 export default function BarberShopItem({ barbershop }: BarberShopItemProps) {
   return (
     <div>
-      <Card className="min-w-[167px] p-0">
+      <Card className="min-w-[167px] p-0 cursor-pointer">
         <CardContent className="p-0">
           <div className="relative h-[159px] w-full">
             <Image
@@ -36,7 +37,9 @@ export default function BarberShopItem({ barbershop }: BarberShopItemProps) {
               {barbershop.address}
             </p>
 
-            <Button className="mt-3 w-full">Reservar</Button>
+            <Button className="mt-3 w-full cursor-pointer" asChild>
+              <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

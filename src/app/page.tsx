@@ -5,7 +5,6 @@ import Image from "next/image";
 import { db } from "./_lib/prisma";
 import BarberShopItem from "./_components/BarberShopItem";
 import { QuickSearch } from "./_components/QuickSearch";
-import { Footer } from "./_components/Footer";
 import { BookingItem } from "./_components/BookingItem";
 
 export default async function App() {
@@ -51,7 +50,6 @@ export default async function App() {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
