@@ -1,103 +1,106 @@
+import { SearchIcon } from "lucide-react";
+import Header from "./_components/Header";
+import { Input } from "./_components/ui/input";
+import { Button } from "./_components/ui/button";
 import Image from "next/image";
+import { Card, CardContent } from "./_components/ui/card";
+import { Badge } from "./_components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "./_components/ui/avatar";
+import { db } from "./_lib/prisma";
+import BarberShopItem from "./_components/BarberShopItem";
 
-export default function Home() {
+export default async function App() {
+  const barberShops = await db.barbershop.findMany();
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div>
+      <Header />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      <div className="p-5">
+        <h2 className="text-xl font-bold">Ola, Chagas</h2>
+        <p>Segunda-feira, 23 de Junho</p>
+
+        {/* BUSCA */}
+        <div className="flex flex-row mt-6 items-center gap-2">
+          <Input placeholder="Faça sua busca" className="h-12" />
+          <Button size="lg">
+            <SearchIcon />
+          </Button>
+        </div>
+
+        {/* ICONS SERVICES */}
+        <div className="flex items-center gap-5 justify-center mt-6">
+          <Button size="lg" variant="outline" className="w-32 h-12">
+            <Image alt="CabeloIcon" src="/cabelo.svg" width={20} height={20} />
+            <p>Cabelo</p>
+          </Button>
+          <Button size="lg" variant="outline" className="w-32 h-12">
+            <Image alt="BarbaIcon" src="/barba.svg" width={20} height={20} />
+            <p>Barba</p>
+          </Button>
+          <Button size="lg" variant="outline" className="w-32 h-12">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
+              alt="MassagemIcon"
+              src="/massagem.svg"
               width={20}
               height={20}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <p>Massagem</p>
+          </Button>
+          <Button size="lg" variant="outline" className="w-32 h-12">
+            <Image
+              alt="SobrancelhaIcon"
+              src="/sobrancelha.svg"
+              width={20}
+              height={20}
+            />
+            <p>Sobrancelha</p>
+          </Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+
+        {/* BANNER */}
+        <div className="relative w-full h-[150px] mt-6">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/banner-01.png"
+            alt="Agende nos melhores com FSW Barber"
+            fill
+            className="object-cover rounded-xl"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+
+        {/* AGENDAMENTOS  */}
+        <h2 className="text-zinc-400 text-md p-4">AGENDAMENTOS</h2>
+
+        <Card>
+          <CardContent className="flex justify-between p-0">
+            <div className="flex flex-col gap-2 pl-5">
+              <Badge className="w-fit">Confirmado</Badge>
+              <h3 className="font-semibold">Corte de Cabelo</h3>
+              <div className="flex gap-2 items-center">
+                <Avatar className="h-14 w-14">
+                  <AvatarImage src="https://utfs.io/f/0522fdaf-0357-4213-8f52-1d83c3dcb6cd-18e.png" />
+                  <AvatarFallback>VB</AvatarFallback>
+                </Avatar>
+                <p className="text-sm">Vintage Barber</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center border-l-4 border-solid px-5">
+              <p className="text-xl">Junho</p>
+              <p className="text-4xl font-semibold">23</p>
+              <p className="text-xl">08:45</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* RECOMENDADOS */}
+
+        <h2 className="text-zinc-400 text-md p-4">RECOMENDADOS</h2>
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {barberShops.map((barbershop) => (
+            <BarberShopItem barbershop={barbershop} key={barbershop.id} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
