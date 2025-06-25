@@ -1,11 +1,11 @@
 import { ServiceItem } from "@/app/_components/ServiceItem";
+import { SidebarButton } from "@/app/_components/SidebarButton";
 import { Button } from "@/app/_components/ui/button";
 
 import { db } from "@/app/_lib/prisma";
 import {
   ChevronLeft,
   MapPinIcon,
-  MenuIcon,
   SmartphoneIcon,
   StarIcon,
 } from "lucide-react";
@@ -51,14 +51,9 @@ export default async function BarberShop({ params }: BarberShopProps) {
             <ChevronLeft width={30} height={30} />
           </Link>
         </Button>
-
-        <Button
-          size="icon"
-          variant="secondary"
-          className="absolute top-4 right-4"
-        >
-          <MenuIcon width={30} height={30} />
-        </Button>
+        <div className="absolute top-4 right-4">
+          <SidebarButton />
+        </div>
       </div>
       <div className="p-5 border-b-2 border-solid">
         <h1 className="text-2xl font-bold">{barberShop.name}</h1>
