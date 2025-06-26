@@ -6,6 +6,9 @@ import { db } from "./_lib/prisma";
 import BarberShopItem from "./_components/BarberShopItem";
 import { QuickSearch } from "./_components/QuickSearch";
 import { BookingItem } from "./_components/BookingItem";
+import { quickSearchOptions } from "./quickSearchList";
+import { Button } from "./_components/ui/button";
+import { FootprintsIcon, PaintbrushIcon } from "lucide-react";
 
 export default async function App() {
   const barberShops = await db.barbershop.findMany();
@@ -22,8 +25,36 @@ export default async function App() {
         <h2 className="text-xl font-bold">Ola, Chagas</h2>
         <p>Segunda-feira, 23 de Junho</p>
 
-        <QuickSearch />
+        <div className="mt-4">
+          <QuickSearch />
+        </div>
+        <div className="flex items-center gap-5 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+          {quickSearchOptions.map((option) => (
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-32 h-12"
+              key={option.title}
+            >
+              <Image
+                alt={option.title}
+                src={option.imageUrl}
+                width={20}
+                height={20}
+              />
+              <p>{option.title}</p>
+            </Button>
+          ))}
+          <Button size="lg" variant="outline" className="w-32 h-12">
+            <FootprintsIcon />
+            <p>Pezinho</p>
+          </Button>
 
+          <Button size="lg" variant="outline" className="w-32 h-12">
+            <PaintbrushIcon />
+            <p>Escova</p>
+          </Button>
+        </div>
         <div className="relative w-full h-[150px] mt-6">
           <Image
             src="/banner-01.png"

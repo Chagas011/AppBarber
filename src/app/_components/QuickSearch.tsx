@@ -1,46 +1,61 @@
-import { FootprintsIcon, PaintbrushIcon, SearchIcon } from "lucide-react";
+"use client";
+import { SearchIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { quickSearchOptions } from "../quickSearchList";
-import Image from "next/image";
+
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+
+const formSchema = z.object({
+  search: z.string().trim().min(1, {
+    message: "Digite algo para buscar",
+  }),
+});
 
 export function QuickSearch() {
+  const router = useRouter();
+
+  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    router.push(`/barbershops?search=${data.search}`);
+  };
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      search: "",
+    },
+  });
+
   return (
-    <>
-      <div className="flex flex-row mt-6 items-center gap-2">
-        <Input placeholder="Faça sua busca" className="h-12" />
-        <Button size="lg">
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex w-full gap-2"
+      >
+        <FormField
+          control={form.control}
+          name="search"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <Input
+                  placeholder="Pesquise uma Barbearia"
+                  {...field}
+                  className="h-[40px]"
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" size="lg">
           <SearchIcon />
         </Button>
-      </div>
-
-      <div className="flex items-center gap-5 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-        {quickSearchOptions.map((option) => (
-          <Button
-            size="lg"
-            variant="outline"
-            className="w-32 h-12"
-            key={option.title}
-          >
-            <Image
-              alt={option.title}
-              src={option.imageUrl}
-              width={20}
-              height={20}
-            />
-            <p>{option.title}</p>
-          </Button>
-        ))}
-        <Button size="lg" variant="outline" className="w-32 h-12">
-          <FootprintsIcon />
-          <p>Pezinho</p>
-        </Button>
-
-        <Button size="lg" variant="outline" className="w-32 h-12">
-          <PaintbrushIcon />
-          <p>Escova</p>
-        </Button>
-      </div>
-    </>
+      </form>
+    </Form>
   );
 }
