@@ -42,7 +42,7 @@ export function QuickSearch() {
             <FormItem className="w-full">
               <FormControl>
                 <Input
-                  placeholder="Pesquise uma Barbearia"
+                  placeholder="Faça sua busca"
                   {...field}
                   className="h-[40px]"
                 />

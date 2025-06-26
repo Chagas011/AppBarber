@@ -9,6 +9,8 @@ import { BookingItem } from "./_components/BookingItem";
 import { quickSearchOptions } from "./quickSearchList";
 import { Button } from "./_components/ui/button";
 import { FootprintsIcon, PaintbrushIcon } from "lucide-react";
+import Link from "next/link";
+import { Home } from "./_components/Home";
 
 export default async function App() {
   const barberShops = await db.barbershop.findMany();
@@ -17,15 +19,15 @@ export default async function App() {
       name: "desc",
     },
   });
+
   return (
     <div>
       <Header />
-
+      <div className="p-4">
+        <Home />
+      </div>
       <div className="p-5">
-        <h2 className="text-xl font-bold">Ola, Chagas</h2>
-        <p>Segunda-feira, 23 de Junho</p>
-
-        <div className="mt-4">
+        <div className="">
           <QuickSearch />
         </div>
         <div className="flex items-center gap-5 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
@@ -35,14 +37,17 @@ export default async function App() {
               variant="outline"
               className="w-32 h-12"
               key={option.title}
+              asChild
             >
-              <Image
-                alt={option.title}
-                src={option.imageUrl}
-                width={20}
-                height={20}
-              />
-              <p>{option.title}</p>
+              <Link href={`/barbershops?search=${option.title}`}>
+                <Image
+                  alt={option.title}
+                  src={option.imageUrl}
+                  width={20}
+                  height={20}
+                />
+                <p>{option.title}</p>
+              </Link>
             </Button>
           ))}
           <Button size="lg" variant="outline" className="w-32 h-12">

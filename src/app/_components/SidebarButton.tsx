@@ -115,19 +115,19 @@ export function SidebarButton() {
 
         <div className="p-5 flex flex-col space-y-5 border-b-2 border-solid">
           {quickSearchOptions.map((option) => (
-            <Button
-              className="justify-start"
-              variant="ghost"
-              key={option.title}
-            >
-              <Image
-                alt={option.title}
-                src={option.imageUrl}
-                width={20}
-                height={20}
-              />
-              <p>{option.title}</p>
-            </Button>
+            <SheetClose key={option.title} asChild>
+              <Button className="justify-start" variant="ghost" asChild>
+                <Link href={`/barbershops?search=${option.title}`}>
+                  <Image
+                    alt={option.title}
+                    src={option.imageUrl}
+                    width={20}
+                    height={20}
+                  />
+                  {option.title}
+                </Link>
+              </Button>
+            </SheetClose>
           ))}
         </div>
 
