@@ -2,15 +2,16 @@
 
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { gerarHorarios } from "../timeList";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
-import { Barbershop, BarbershopServices } from "@/generated/prisma";
+import { Barbershop, BarbershopServices, Booking } from "@/generated/prisma";
 import { format, set } from "date-fns";
 import { SheetClose, SheetFooter } from "./ui/sheet";
 import { createBooking } from "../_actions/createBooking";
 import { useSession } from "next-auth/react";
+import { getBookings } from "../_actions/getBookings";
 
 type SerializableService = Omit<BarbershopServices, "price"> & {
   price: number;
@@ -20,6 +21,26 @@ interface SheetBookingItemProps {
   service: SerializableService;
   barbershop: Pick<Barbershop, "name">;
 }
+const generateDayTimeList = gerarHorarios();
+
+const getTimeList = (bookings: Booking[]) => {
+  const timeList = generateDayTimeList.filter((time) => {
+    const hour = Number(time.split(":")[0]);
+    const minutes = Number(time.split(":")[1]);
+
+    const hasBookingCurrentTime = bookings.some(
+      (booking) =>
+        booking.date.getHours() === hour &&
+        booking.date.getMinutes() === minutes
+    );
+    if (hasBookingCurrentTime) {
+      return false;
+    }
+    return true;
+  });
+
+  return timeList;
+};
 
 export function SheetBookingItem({
   service,
@@ -28,7 +49,20 @@ export function SheetBookingItem({
   const { data } = useSession();
   const [selectDay, setSelectDay] = useState<Date | undefined>(undefined);
   const [selectTime, setSelectTime] = useState<string | undefined>(undefined);
-  const generateDayTimeList = gerarHorarios();
+  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (!selectDay) return;
+      const bookings = await getBookings({
+        date: selectDay,
+        serviceId: service.id,
+      });
+      setDayBookings(bookings);
+    };
+    fetch();
+  }, [selectDay, service.id]);
+
   const handleSelectDay = (date: Date | undefined) => {
     setSelectDay(date);
   };
@@ -63,6 +97,7 @@ export function SheetBookingItem({
     <>
       <div className="border-b-2 border-solid">
         <Calendar
+          disabled={{ before: new Date() }}
           selected={selectDay}
           onSelect={handleSelectDay}
           mode="single"
@@ -82,7 +117,7 @@ export function SheetBookingItem({
           className="px-5 grid grid-cols-5 gap-1 mt-5 pb-3 overflow-y-auto max-h-[168px] 
              [&::-webkit-scrollbar]:hidden scrollbar-hide border-b-2 border-solid"
         >
-          {generateDayTimeList.map((time) => (
+          {getTimeList(dayBookings).map((time) => (
             <Button
               key={time}
               className="rounded-full"
