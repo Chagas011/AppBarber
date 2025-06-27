@@ -31,6 +31,13 @@ export default async function BarberShop({ params }: BarberShopProps) {
   if (!barberShop) {
     return notFound();
   }
+  const safeBarberShop = {
+    ...(barberShop as Required<typeof barberShop>),
+    services: barberShop?.services.map((service) => ({
+      ...service,
+      price: service.price.toNumber(),
+    })),
+  };
   return (
     <div>
       <div className="relative h-[250px] w-full">
@@ -85,7 +92,11 @@ export default async function BarberShop({ params }: BarberShopProps) {
 
         <div className="mt-4 space-y-3 ">
           {barberShop.services.map((service) => (
-            <ServiceItem service={service} key={service.id} />
+            <ServiceItem
+              barbershop={safeBarberShop}
+              service={{ ...service, price: service.price.toNumber() }}
+              key={service.id}
+            />
           ))}
         </div>
       </div>

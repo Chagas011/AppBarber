@@ -87,7 +87,12 @@ export function SidebarButton() {
               <div className="flex items-center gap-3">
                 <Avatar className="h-14 w-14">
                   {<AvatarImage src={data?.user.image ?? ""} />}
-                  <AvatarFallback>VB</AvatarFallback>
+                  <AvatarFallback>
+                    {data.user.name
+                      ?.split(" ")
+                      .map((initial) => initial[0])
+                      .join("")}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="items-center">
                   <p className="font-bold">{data.user.name}</p>

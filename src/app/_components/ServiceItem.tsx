@@ -1,13 +1,26 @@
-import { BarbershopServices } from "@/generated/prisma";
+import { Barbershop, BarbershopServices } from "@/generated/prisma";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { SheetBookingItem } from "./SheetBookingItem";
+
+type SafeService = Omit<BarbershopServices, "price"> & {
+  price: number;
+};
 
 interface ServiceItemProps {
-  service: BarbershopServices;
+  service: SafeService;
+  barbershop: Pick<Barbershop, "name">;
 }
 
-export function ServiceItem({ service }: ServiceItemProps) {
+export function ServiceItem({ service, barbershop }: ServiceItemProps) {
   return (
     <Card className="">
       <CardContent className="flex gap-3 p-3 items-center">
@@ -33,7 +46,22 @@ export function ServiceItem({ service }: ServiceItemProps) {
                 currency: "BRL",
               }).format(Number(service.price))}
             </p>
-            <Button variant="secondary">Reservar</Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="secondary">Reservar</Button>
+              </SheetTrigger>
+              <SheetContent className="px-0">
+                <SheetHeader>
+                  <div className="border-b-2 border-solid">
+                    <SheetTitle className="p-5">Fazer reserva</SheetTitle>
+                  </div>
+                </SheetHeader>
+
+                <div className="w-full px-5 py-2">
+                  <SheetBookingItem service={service} barbershop={barbershop} />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </CardContent>
