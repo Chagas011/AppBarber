@@ -12,7 +12,7 @@ export function Home() {
   return (
     <>
       <h2 className="text-xl font-bold">
-        {!data ? "Faça seu login" : data.user?.name}
+        {!data ? "Faça seu login" : `Olá, ${data.user?.name}`}
       </h2>
       <p className="text-sm font-extralight text-zinc-300">
         {dataAtual.toLocaleUpperCase()}

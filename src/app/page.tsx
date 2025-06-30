@@ -11,8 +11,31 @@ import { Button } from "./_components/ui/button";
 import { FootprintsIcon, PaintbrushIcon } from "lucide-react";
 import Link from "next/link";
 import { Home } from "./_components/Home";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./_lib/auth";
 
 export default async function App() {
+  const user = await getServerSession(authOptions);
+  const bookings = user?.user
+    ? await db.booking.findMany({
+        where: {
+          userId: (user?.user as any).id,
+          date: {
+            gte: new Date(),
+          },
+        },
+        include: {
+          service: {
+            include: {
+              barbershop: true,
+            },
+          },
+        },
+        orderBy: {
+          date: "asc",
+        },
+      })
+    : [];
   const barberShops = await db.barbershop.findMany();
   const popularBarberShops = await db.barbershop.findMany({
     orderBy: {
@@ -70,7 +93,11 @@ export default async function App() {
         </div>
 
         <h2 className="text-zinc-400 text-md p-4">AGENDAMENTOS</h2>
-        <BookingItem />
+        <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden gap-2">
+          {bookings.map((booking) => (
+            <BookingItem booking={booking} key={booking.id} />
+          ))}
+        </div>
 
         <h2 className="text-zinc-400 text-md p-4">RECOMENDADOS</h2>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">

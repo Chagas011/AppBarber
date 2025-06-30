@@ -83,9 +83,11 @@ export function SidebarButton() {
               </Link>
             </Button>
           </SheetClose>
-          <Button className="justify-start" variant="ghost">
-            <CalendarDaysIcon />
-            Agendamentos
+          <Button className="justify-start" variant="ghost" asChild>
+            <Link href="/bookings">
+              <CalendarDaysIcon />
+              Agendamentos
+            </Link>
           </Button>
         </div>
 
@@ -107,12 +109,14 @@ export function SidebarButton() {
           ))}
         </div>
 
-        <div className="p-5">
-          <Button variant="ghost" onClick={handleLogout}>
-            <LogOutIcon />
-            Sair da conta
-          </Button>
-        </div>
+        {data?.user && (
+          <div className="p-5">
+            <Button variant="ghost" onClick={handleLogout}>
+              <LogOutIcon />
+              Sair da conta
+            </Button>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

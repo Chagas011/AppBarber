@@ -10,7 +10,7 @@ import { Barbershop, BarbershopServices, Booking } from "@/generated/prisma";
 import { format, set } from "date-fns";
 import { SheetClose, SheetFooter } from "./ui/sheet";
 import { createBooking } from "../_actions/createBooking";
-import { useSession } from "next-auth/react";
+
 import { getBookings } from "../_actions/getBookings";
 
 type SerializableService = Omit<BarbershopServices, "price"> & {
@@ -46,7 +46,6 @@ export function SheetBookingItem({
   service,
   barbershop,
 }: SheetBookingItemProps) {
-  const { data } = useSession();
   const [selectDay, setSelectDay] = useState<Date | undefined>(undefined);
   const [selectTime, setSelectTime] = useState<string | undefined>(undefined);
   const [dayBookings, setDayBookings] = useState<Booking[]>([]);
@@ -84,7 +83,7 @@ export function SheetBookingItem({
 
       await createBooking({
         serviceId: service.id,
-        userId: (data?.user as any).id,
+
         date: newDate,
       });
       console.log("Reserva criado com sucesso");
