@@ -8,7 +8,7 @@ import { QuickSearch } from "./_components/QuickSearch";
 import { BookingItem } from "./_components/BookingItem";
 import { quickSearchOptions } from "./quickSearchList";
 import { Button } from "./_components/ui/button";
-import { FootprintsIcon, PaintbrushIcon } from "lucide-react";
+import { FootprintsIcon } from "lucide-react";
 import Link from "next/link";
 import { Home } from "./_components/Home";
 import { getServerSession } from "next-auth";
@@ -73,14 +73,11 @@ export default async function App() {
               </Link>
             </Button>
           ))}
-          <Button size="lg" variant="outline" className="w-32 h-12">
-            <FootprintsIcon />
-            <p>Pezinho</p>
-          </Button>
-
-          <Button size="lg" variant="outline" className="w-32 h-12">
-            <PaintbrushIcon />
-            <p>Escova</p>
+          <Button size="lg" variant="outline" className="w-32 h-12" asChild>
+            <Link href={`/barbershops?search=Pézinho`}>
+              <FootprintsIcon />
+              <p>Pezinho</p>
+            </Link>
           </Button>
         </div>
         <div className="relative w-full h-[150px] mt-6">
