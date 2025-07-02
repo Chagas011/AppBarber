@@ -4,9 +4,7 @@ import { QuickSearch } from "../_components/QuickSearch";
 import { db } from "../_lib/prisma";
 
 interface BarberShopPageProps {
-  searchParams: {
-    search?: string;
-  };
+  searchParams: Promise<{ search?: string }>;
 }
 export default async function BarberShopPage({
   searchParams,
@@ -16,7 +14,7 @@ export default async function BarberShopPage({
       OR: [
         {
           name: {
-            contains: searchParams.search,
+            contains: (await searchParams).search,
             mode: "insensitive",
           },
         },
@@ -25,7 +23,7 @@ export default async function BarberShopPage({
           services: {
             some: {
               name: {
-                contains: searchParams.search,
+                contains: (await searchParams).search,
                 mode: "insensitive",
               },
             },
@@ -42,7 +40,7 @@ export default async function BarberShopPage({
       </div>
       <div className="p-5">
         <h2 className="text-zinc-400 text-md p-4">
-          Resultados para &quot;{searchParams.search}&quot;
+          Resultados para &quot;{(await searchParams).search}&quot;
         </h2>
 
         <div className="grid grid-cols-2 gap-4">
