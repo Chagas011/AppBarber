@@ -7,7 +7,7 @@ import { gerarHorarios } from "../timeList";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Barbershop, BarbershopServices, Booking } from "@/generated/prisma";
-import { format, set } from "date-fns";
+import { format, isPast, isToday, set } from "date-fns";
 import { SheetClose, SheetFooter } from "./ui/sheet";
 import { createBooking } from "../_actions/createBooking";
 
@@ -23,11 +23,18 @@ interface SheetBookingItemProps {
 }
 const generateDayTimeList = gerarHorarios();
 
-const getTimeList = (bookings: Booking[]) => {
+const getTimeList = (bookings: Booking[], selectedDay: Date) => {
   const timeList = generateDayTimeList.filter((time) => {
     const hour = Number(time.split(":")[0]);
     const minutes = Number(time.split(":")[1]);
 
+    const timeIsOnThePast = isPast(
+      set(new Date(), { hours: hour, minutes: minutes })
+    );
+
+    if (timeIsOnThePast && isToday(selectedDay)) {
+      return false;
+    }
     const hasBookingCurrentTime = bookings.some(
       (booking) =>
         booking.date.getHours() === hour &&
@@ -116,7 +123,7 @@ export function SheetBookingItem({
           className="px-5 grid grid-cols-5 gap-1 mt-5 pb-3 overflow-y-auto max-h-[168px] 
              [&::-webkit-scrollbar]:hidden scrollbar-hide border-b-2 border-solid"
         >
-          {getTimeList(dayBookings).map((time) => (
+          {getTimeList(dayBookings, selectDay).map((time) => (
             <Button
               key={time}
               className="rounded-full"
