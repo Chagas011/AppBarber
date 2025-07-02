@@ -123,7 +123,7 @@ export function BookingItem({ booking }: IBookingItemProps) {
           </Card>
         </div>
 
-        <div className="p-2 py-5 ">
+        <div className="p-2 py-3">
           <Badge
             className={`w-fit `}
             variant={isConfirmed ? "default" : "secondary"}
@@ -162,7 +162,7 @@ export function BookingItem({ booking }: IBookingItemProps) {
           </Card>
         </div>
 
-        <div className="mt-6">
+        <div className="">
           <h3 className="text-md uppercase text-zinc-400 mb-3">Contatos</h3>
           {booking.service.barbershop.phones.map((phone) => (
             <div className="flex justify-between space-y-3 p-2" key={phone}>
@@ -176,7 +176,7 @@ export function BookingItem({ booking }: IBookingItemProps) {
           ))}
         </div>
 
-        <SheetFooter className="">
+        <SheetFooter className="mt-1">
           <div className="flex gap-3 items-center justify-center">
             <SheetClose asChild>
               <Button variant="secondary" className="w-[150px]">
