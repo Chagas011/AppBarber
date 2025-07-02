@@ -71,11 +71,11 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
                 <SheetContent className="px-0">
                   <SheetHeader>
                     <div className="border-b-2 border-solid">
-                      <SheetTitle className="p-5">Fazer reserva</SheetTitle>
+                      <SheetTitle className="p-2">Fazer reserva</SheetTitle>
                     </div>
                   </SheetHeader>
 
-                  <div className="w-full px-5 py-2">
+                  <div className="w-full px-5 py-0">
                     <SheetBookingItem
                       service={service}
                       barbershop={barbershop}

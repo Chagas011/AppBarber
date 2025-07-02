@@ -120,8 +120,15 @@ export function SheetBookingItem({
 
       {selectDay && (
         <div
-          className="px-5 grid grid-cols-5 gap-1 mt-5 pb-3 overflow-y-auto max-h-[168px] 
-             [&::-webkit-scrollbar]:hidden scrollbar-hide border-b-2 border-solid"
+          className="
+    flex gap-1 
+    px-5 mt-5 pb-3 
+    overflow-x-auto overflow-y-hidden 
+    max-h-[50px]
+    scrollbar-hide
+    border-b-2 border-solid
+    [&::-webkit-scrollbar]:hidden
+  "
         >
           {getTimeList(dayBookings, selectDay).map((time) => (
             <Button
@@ -137,9 +144,9 @@ export function SheetBookingItem({
       )}
 
       {selectTime && selectDay && (
-        <div className="p-5 mt-3">
+        <div className="p-2 mt-3">
           <Card className="p-0">
-            <CardContent className="p-3 space-y-3">
+            <CardContent className="p-3 space-y-2">
               <div className="flex justify-between items-center">
                 <h2 className="font-bold">{service.name}</h2>
 

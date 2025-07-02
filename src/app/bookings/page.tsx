@@ -3,13 +3,13 @@ import { BookingItem } from "../_components/BookingItem";
 import Header from "../_components/Header";
 import { authOptions } from "../_lib/auth";
 import { db } from "../_lib/prisma";
-import { notFound } from "next/navigation";
+import { DialogOpen } from "../_components/DialogOpen";
 
 export default async function Bookings() {
   const user = await getServerSession(authOptions);
 
   if (!user) {
-    return notFound();
+    return <DialogOpen state={true} />;
   }
   const confirmedBookings = await db.booking.findMany({
     where: {
