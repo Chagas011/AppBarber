@@ -13,15 +13,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 interface BarberShopProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 export default async function BarberShop({ params }: BarberShopProps) {
   const barberShop = await db.barbershop.findUnique({
     where: {
-      id: params.id,
+      id: (await params).id,
     },
     include: {
       services: true,
