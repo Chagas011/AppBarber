@@ -62,7 +62,10 @@ export default async function Bookings() {
             </h3>
             <div className="mt-8 space-y-3">
               {confirmedBookings.map((booking) => (
-                <BookingItem booking={booking} key={booking.id} />
+                <BookingItem
+                  booking={JSON.parse(JSON.stringify(booking))}
+                  key={booking.id}
+                />
               ))}
             </div>
           </>
@@ -71,7 +74,10 @@ export default async function Bookings() {
         <h3 className="text-md text-zinc-400 uppercase mt-5">finalizados</h3>
         <div className="mt-8 space-y-3">
           {finallyBookings.map((booking) => (
-            <BookingItem booking={booking} key={booking.id} />
+            <BookingItem
+              booking={JSON.parse(JSON.stringify(booking))}
+              key={booking.id}
+            />
           ))}
         </div>
       </div>

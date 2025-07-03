@@ -94,7 +94,10 @@ export default async function App() {
             <h2 className="text-zinc-400 text-md p-4">AGENDAMENTOS</h2>
             <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden gap-2">
               {bookings.map((booking) => (
-                <BookingItem booking={booking} key={booking.id} />
+                <BookingItem
+                  booking={JSON.parse(JSON.stringify(booking))}
+                  key={booking.id}
+                />
               ))}
             </div>
           </>
