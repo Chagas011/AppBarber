@@ -89,12 +89,16 @@ export default async function App() {
           />
         </div>
 
-        <h2 className="text-zinc-400 text-md p-4">AGENDAMENTOS</h2>
-        <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden gap-2">
-          {bookings.map((booking) => (
-            <BookingItem booking={booking} key={booking.id} />
-          ))}
-        </div>
+        {bookings.length > 0 && (
+          <>
+            <h2 className="text-zinc-400 text-md p-4">AGENDAMENTOS</h2>
+            <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden gap-2">
+              {bookings.map((booking) => (
+                <BookingItem booking={booking} key={booking.id} />
+              ))}
+            </div>
+          </>
+        )}
 
         <h2 className="text-zinc-400 text-md p-4">RECOMENDADOS</h2>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">

@@ -98,7 +98,7 @@ export function SheetBookingItem({
       console.log(e);
     }
   };
-  console.log(selectTime);
+
   return (
     <>
       <div className="border-b-2 border-solid">

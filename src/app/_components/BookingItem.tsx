@@ -58,7 +58,7 @@ export function BookingItem({ booking }: IBookingItemProps) {
   const isConfirmed = isFuture(booking.date);
   return (
     <Sheet open={isSheetOpen} onOpenChange={handleSheetChange}>
-      <SheetTrigger className="w-full">
+      <SheetTrigger className="w-full min-w-[90%]">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
             <div className="flex flex-col gap-2 pl-5">
